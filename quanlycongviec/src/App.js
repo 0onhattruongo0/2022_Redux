@@ -50,12 +50,12 @@ class App extends Component {
     localStorage.setItem('tasks',JSON.stringify(tasks))
     
   }
-  s4(){
-    return Math.floor((1+Math.random())* 0x10000).toString(16).substring(1)
-  }
-  GenarateID(){
-    return this.s4() + this.s4()+ '-'+this.s4()+this.s4()+ '-'+this.s4() +this.s4();
-  }
+  // s4(){
+  //   return Math.floor((1+Math.random())* 0x10000).toString(16).substring(1)
+  // }
+  // GenarateID(){
+  //   return this.s4() + this.s4()+ '-'+this.s4()+this.s4()+ '-'+this.s4() +this.s4();
+  // }
   // Thêm
   onToggleForm = () =>{
     if(this.state.isDisplayForm === true && this.state.taskEdit !== null){
@@ -169,7 +169,9 @@ class App extends Component {
   render() {
     var {
       // tasks,
-       isDisplayForm, taskEdit, filter,keyword,sortBy,sortValue} = this.state;
+       isDisplayForm, taskEdit, 
+      //  filter,keyword,
+       sortBy,sortValue} = this.state;
     // if(filter){
     //   if(filter.name){
     //     tasks = tasks.filter((task)=>{
