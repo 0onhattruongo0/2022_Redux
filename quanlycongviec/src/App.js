@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import TaskForm from './components/TaskForm';
 import Control from './components/Control';
 import TaskList from './components/TaskList';
+import { connect } from "react-redux";
+import * as actions from "./actions/index"
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       // tasks : [],
-      isDisplayForm: false,
+      // isDisplayForm: false,
       taskEdit: null,
       filter: {
         name: '',
@@ -58,25 +60,28 @@ class App extends Component {
   // }
   // Thêm
   onToggleForm = () =>{
-    if(this.state.isDisplayForm === true && this.state.taskEdit !== null){
-      this.setState({
-        isDisplayForm:true,
-        taskEdit: null
-      })
-    }else{
-      this.setState({
-        isDisplayForm : !this.state.isDisplayForm,
-        taskEdit: null
-      })
-    }
+    // if(this.state.isDisplayForm === true && this.state.taskEdit !== null){
+    //   this.setState({
+    //     isDisplayForm:true,
+    //     taskEdit: null
+    //   })
+    // }else{
+    //   this.setState({
+    //     isDisplayForm : !this.state.isDisplayForm,
+    //     taskEdit: null
+    //   })
+    // }
+    this.props.onToggleForm()
+
      
  
   }
-  onCloseForm = () =>{
-    this.setState({
-      isDisplayForm : false
-    })
-  }
+  // onCloseForm = () =>{
+  //   // this.setState({
+  //   //   isDisplayForm : false
+  //   // })
+  //   this.props.onCloseForm()
+  // }
   onShowForm=()=>{
     this.setState({
       isDisplayForm:true
@@ -169,7 +174,8 @@ class App extends Component {
   render() {
     var {
       // tasks,
-       isDisplayForm, taskEdit, 
+      //  isDisplayForm,
+        taskEdit, 
       //  filter,keyword,
        sortBy,sortValue} = this.state;
     // if(filter){
@@ -214,7 +220,11 @@ class App extends Component {
     //   })
     // }
 
-    var elmTaskForm = isDisplayForm ? <TaskForm onSubmit = {this.onSubmit} onCloseForm = {this.onCloseForm} task={taskEdit} /> : '';
+    var {isDisplayForm} = this.props;
+
+    var elmTaskForm = isDisplayForm ===true ? <TaskForm onSubmit = {this.onSubmit} 
+    // onCloseForm = {this.onCloseForm}
+     task={taskEdit} /> : '';
     return (
       <div>
           <div className="container">
@@ -223,10 +233,10 @@ class App extends Component {
                 <hr/>
             </div>
             <div className="row">
-                <div className={isDisplayForm? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
+                <div className={isDisplayForm === true? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
                     {elmTaskForm}
                 </div>
-                <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8":"col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
+                <div className={isDisplayForm === true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8":"col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
                     <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
                         <span className="fa fa-plus mr-5"></span>Thêm Công Việc
                     </button>
@@ -248,5 +258,20 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = state =>{
+  return {
+    isDisplayForm: state.isDisplayForm
+  }
+}
+const mapDispatchToProps = (dispatch, props)=>{
+  return {
+    onToggleForm: ()=>{
+      dispatch(actions.toggleForm())
+    },
+    // onCloseForm: ()=>{
+    //   dispatch(actions.closeForm())
+    // }
+  }
+}
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
