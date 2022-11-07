@@ -11,10 +11,10 @@ class TaskList extends Component {
             filterStatus: -1
         }
     }
-    onUpdateStatus = (value)=>
-    {
-        this.props.onUpdateStatus(value)
-    }   
+    // onUpdateStatus = (value)=>
+    // {
+    //     this.props.onUpdateStatus(value)
+    // }   
     onDelete = (value) =>{
         this.props.onDelete(value)
     }
@@ -36,7 +36,9 @@ class TaskList extends Component {
         var tasks = this.props.tasks;
         var {filterName, filterStatus} = this.state;
         var elmtasks = tasks.map((task, index)=>{
-            return <TaskItem key={task.id} index={index} task = {task} onUpdateStatus = {this.onUpdateStatus} onDelete ={this.onDelete} onUpdate={this.onUpdate} />
+            return <TaskItem key={task.id} index={index} task = {task} 
+            // onUpdateStatus = {this.onUpdateStatus}
+             onDelete ={this.onDelete} onUpdate={this.onUpdate} />
         })
 
         return (
