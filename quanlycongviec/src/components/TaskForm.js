@@ -29,6 +29,7 @@ class TaskForm extends Component {
         event.preventDefault();
         // this.props.onSubmit(this.state)
         this.props.onAddTask(this.state);
+        this.props.onCloseForm()
     }
     onCancel = (event)=>{
         event.preventDefault();
@@ -86,37 +87,43 @@ class TaskForm extends Component {
        
     render() {
         var {id} = this.state
-        return (
-                <div className="panel panel-warning">
-                        <div className="panel-heading">
-                            <h3 className="panel-title">{id !== ''? 'Cập Nhật Công Việc':'Thêm công việc' }<span className='fa fa-times-circle text-right' onClick={this.onCloseForm}></span></h3>
-                            
+        // console.log(this.props.isDisplayForm)
+        if(!this.props.isDisplayForm) return '';
+        else{
+            return (
+                    <div className="panel panel-warning">
+                            <div className="panel-heading">
+                                <h3 className="panel-title">{id !== ''? 'Cập Nhật Công Việc':'Thêm công việc' }<span className='fa fa-times-circle text-right' onClick={this.onCloseForm}></span></h3>
+                                
+                            </div>
+                            <div className="panel-body">
+                                <form onSubmit= {this.onSubmit}>
+                                    <div className="form-group">
+                                        <label>Tên :</label>
+                                        <input type="text" className="form-control" name ='name' 
+                                        onChange={this.onChange} 
+                                        value={this.state.name}/>
+                                    </div>
+                                    <label>Trạng Thái :</label>
+                                    <select className="form-control" required="required" name ='status' onChange={this.onChange} value={this.state.status}>
+                                        <option value={true}>Kích Hoạt</option>
+                                        <option value={false}>Ẩn</option>
+                                    </select>
+                                    <br/>
+                                    <div className="text-center">
+                                        <button type="submit" className="btn btn-warning">{id !== ''? 'Sửa':'Thêm' }</button>&nbsp;
+                                        <button type="submit" className="btn btn-danger" onClick={this.onCancel}>Hủy Bỏ</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div className="panel-body">
-                            <form onSubmit= {this.onSubmit}>
-                                <div className="form-group">
-                                    <label>Tên :</label>
-                                    <input type="text" className="form-control" name ='name' onChange={this.onChange} value={this.state.name}/>
-                                </div>
-                                <label>Trạng Thái :</label>
-                                <select className="form-control" required="required" name ='status' onChange={this.onChange} value={this.state.status}>
-                                    <option value={true}>Kích Hoạt</option>
-                                    <option value={false}>Ẩn</option>
-                                </select>
-                                <br/>
-                                <div className="text-center">
-                                    <button type="submit" className="btn btn-warning">{id !== ''? 'Sửa':'Thêm' }</button>&nbsp;
-                                    <button type="submit" className="btn btn-danger" onClick={this.onCancel}>Hủy Bỏ</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-        );
+            );
+        }
     }
 }
 const mapStateToProp = state => {
     return {
-
+        isDisplayForm: state.isDisplayForm
     }
 }
 const mapDispatchToProps = (dispatch,props) =>{

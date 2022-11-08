@@ -38,7 +38,9 @@ class TaskList extends Component {
         var elmtasks = tasks.map((task, index)=>{
             return <TaskItem key={task.id} index={index} task = {task} 
             // onUpdateStatus = {this.onUpdateStatus}
-             onDelete ={this.onDelete} onUpdate={this.onUpdate} />
+            //  onDelete ={this.onDelete}
+            //   onUpdate={this.onUpdate} 
+              />
         })
 
         return (

@@ -19,6 +19,8 @@ var data = JSON.parse(localStorage.getItem('tasks'))
 // var data = []
 var initialState = data ? data : [];
 var myReducer = (state = initialState, action)=>{
+  var index = "";
+  var id = -1 ;
     switch(action.type){
         case types.LIST_ALL: return state;
         case types.ADD_TASK: 
@@ -26,19 +28,21 @@ var myReducer = (state = initialState, action)=>{
             var newTask = {
                 id: GenarateID(),
                 name: action.task.name,
-                status: action.task.status === 'true' ? true :false
+                status: action.task.status 
+                // === 'true' ? true : false
             }
+            console.log(newTask)
             state.push(newTask);
             localStorage.setItem('tasks', JSON.stringify(state));
             return [...state];
         case types.UPDATE_STATUS:
             console.log(action)
-            var id = action.id;
-            var index  =findIndex(state,id);
+            id = action.id;
+            index  =findIndex(state,id);
             // sai:
             // state[index].status = !state[index].status;  
-            var cloneTask = {...state[index]};
-            cloneTask.status = !cloneTask.status;
+            // var cloneTask = {...state[index]};
+            // cloneTask.status = !cloneTask.status;
             // C1:
             // state.splice(index,1);
             // state.push(cloneTask);     
@@ -51,6 +55,12 @@ var myReducer = (state = initialState, action)=>{
             }
             localStorage.setItem('tasks', JSON.stringify(state))
             return [...state]
+        case types.DELETE_TASK:
+          id = action.id;
+          index = findIndex(state, id);
+          state.splice(index,1);
+          localStorage.setItem('tasks', JSON.stringify(state))
+          return [...state];
         default: return state;
     }
 }

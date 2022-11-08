@@ -125,18 +125,18 @@ class App extends Component {
     })
     return result;
   }
-  onDelete = (id) =>{
-    var {tasks} = this.state;
-    var index  =this.findIndex(id);
-    if(index !== -1){
-      tasks.splice(index,1);
-      this.setState({
-        tasks : tasks
-      });
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      this.onCloseForm()
-    }
-  }
+  // onDelete = (id) =>{
+  //   var {tasks} = this.state;
+  //   var index  =this.findIndex(id);
+  //   if(index !== -1){
+  //     tasks.splice(index,1);
+  //     this.setState({
+  //       tasks : tasks
+  //     });
+  //     localStorage.setItem('tasks', JSON.stringify(tasks));
+  //     this.onCloseForm()
+  //   }
+  // }
   onUpdate =(id) =>{
     var{tasks} = this.state;
     var index = this.findIndex(id);
@@ -222,9 +222,9 @@ class App extends Component {
 
     var {isDisplayForm} = this.props;
 
-    var elmTaskForm = isDisplayForm ===true ? <TaskForm onSubmit = {this.onSubmit} 
-    // onCloseForm = {this.onCloseForm}
-     task={taskEdit} /> : '';
+    // var elmTaskForm = isDisplayForm ===true ? <TaskForm onSubmit = {this.onSubmit} 
+    // // onCloseForm = {this.onCloseForm}
+    //  task={taskEdit} /> : '';
     return (
       <div>
           <div className="container">
@@ -234,10 +234,15 @@ class App extends Component {
             </div>
             <div className="row">
                 <div className={isDisplayForm === true? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
-                    {elmTaskForm}
+                    {/* {elmTaskForm} */}
+                    <TaskForm onSubmit = {this.onSubmit} 
+                    // onCloseForm = {this.onCloseForm}
+                    task={taskEdit} />
                 </div>
                 <div className={isDisplayForm === true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8":"col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
-                    <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
+                    <button type="button" className="btn btn-primary" 
+                    onClick={this.onToggleForm}
+                    >
                         <span className="fa fa-plus mr-5"></span>Thêm Công Việc
                     </button>
                     <button type="button" className="btn btn-danger" onClick={this.GenarateData}>
@@ -247,8 +252,8 @@ class App extends Component {
                     <TaskList 
                     // tasks = {tasks} 
                     // onUpdateStatus = {this.onUpdateStatus} 
-                    onDelete = {this.onDelete} 
-                    onUpdate= {this.onUpdate}
+                    // onDelete = {this.onDelete} 
+                    // onUpdate= {this.onUpdate}
                     onFilter = {this.onFilter}
                     />
                 </div>
