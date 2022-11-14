@@ -71,7 +71,12 @@ class App extends Component {
     //     taskEdit: null
     //   })
     // }
-    this.props.onToggleForm()
+    this.props.onToggleForm();
+    this.props.onClearTask({
+      id : '',
+      name : '',
+      status : false
+    })
 
      
  
@@ -175,7 +180,7 @@ class App extends Component {
     var {
       // tasks,
       //  isDisplayForm,
-        taskEdit, 
+        // taskEdit, 
       //  filter,keyword,
        sortBy,sortValue} = this.state;
     // if(filter){
@@ -237,7 +242,8 @@ class App extends Component {
                     {/* {elmTaskForm} */}
                     <TaskForm onSubmit = {this.onSubmit} 
                     // onCloseForm = {this.onCloseForm}
-                    task={taskEdit} />
+                    // task={taskEdit}
+                     />
                 </div>
                 <div className={isDisplayForm === true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8":"col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
                     <button type="button" className="btn btn-primary" 
@@ -273,6 +279,9 @@ const mapDispatchToProps = (dispatch, props)=>{
     onToggleForm: ()=>{
       dispatch(actions.toggleForm())
     },
+    onClearTask: (task) =>{
+      dispatch(actions.editTask(task))
+    }
     // onCloseForm: ()=>{
     //   dispatch(actions.closeForm())
     // }
