@@ -40,7 +40,12 @@ class TaskForm extends Component {
             name: '',
             status: false
         });
-        this.props.onCloseForm()
+        this.props.onCloseForm();
+        this.props.onClearTask({
+            id : '',
+            name : '',
+            status : false
+        })
     }
     onCancel = (event)=>{
         event.preventDefault();
@@ -49,22 +54,22 @@ class TaskForm extends Component {
             status: false
         })
     }
-    componentDidMount(){
-        if(!this.props.itemEditing && this.props.itemEditing.id!==null){
-            console.log("vào")
-            this.setState({
-                id: this.props.itemEditting.id,
-                name: this.props.itemEditting.name,
-                status: this.props.itemEditting.status
-            })
-        }
-        else{
-            this.onClear()
-        }
-    }
+    // componentDidMount(){
+    //     if(!this.props.itemEditing && this.props.itemEditing.id!==null){
+    //         console.log("vào")
+    //         this.setState({
+    //             id: this.props.itemEditting.id,
+    //             name: this.props.itemEditting.name,
+    //             status: this.props.itemEditting.status
+    //         })
+    //     }
+    //     else{
+    //         this.onClear()
+    //     }
+    // }
     
    componentWillReceiveProps(nextProps){
-    console.log(nextProps.itemEditing.id !== '')
+    console.log(nextProps)
     if(nextProps && nextProps.itemEditing !== ''){
         this.setState({
             id: nextProps.itemEditing.id,
@@ -157,6 +162,9 @@ const mapDispatchToProps = (dispatch,props) =>{
     return {
         onSaveTask : (task)=>{
             dispatch(action.saveTask(task))
+        },
+        onClearTask: (task) =>{
+            dispatch(action.editTask(task))
         },
         onCloseForm : ()=>{
             dispatch(action.closeForm())

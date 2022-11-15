@@ -5,14 +5,7 @@ import TaskList from './components/TaskList';
 import { connect } from "react-redux";
 import * as actions from "./actions/index"
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-        sortBy : 'name',
-        sortValue : 1
-    }
-  }
-
+  
   GenarateData =()=>{
     var tasks = [
       {
@@ -41,7 +34,7 @@ class App extends Component {
   onToggleForm = () =>{
     var {itemEditing} = this.props;
     if(itemEditing&&itemEditing.id!==''){
-
+      console.log('avo')
     }else{
       this.props.onToggleForm();
      
@@ -53,44 +46,8 @@ class App extends Component {
     })
   }
 
-  onSearch = (value) =>{
-    this.setState({
-      keyword : value
-    })
-  }
-  onSort=(sortBy,sortValue)=>{
-    this.setState({
-      sortBy : sortBy,
-      sortValue : sortValue
-    })
-  }
-
   render() {
-    var {
-       sortBy,sortValue} = this.state;
-    // if(sortBy==="name"){
-    //   tasks.sort((a,b)=>{
-    //     if(a.name.toLowerCase()>b.name.toLowerCase()){
-    //       return sortValue;
-    //     }else if(a.name.toLowerCase()<b.name.toLowerCase()){
-    //       return -sortValue;
-    //     }else{
-    //       return 0;
-    //     }
-    //   })
-    // }else{
-    //   tasks.sort((a,b)=>{
-    //     if(a.status>b.status){
-    //       return -sortValue;
-         
-    //     }else if(a.status<b.status){
-    //       return sortValue;
-    //     }else{
-    //       return 0;
-    //     }
-    //   })
-    // }
-
+    
     var {isDisplayForm} = this.props;
     return (
       <div>
@@ -108,13 +65,12 @@ class App extends Component {
                     <button type="button" className="btn btn-primary" 
                     onClick={this.onToggleForm}
                     >
-                        <span className="fa fa-plus mr-5"></span>Thêm Công Việc
+                      <span className="fa fa-plus mr-5"></span>Thêm Công Việc
                     </button>
                     <button type="button" className="btn btn-danger" onClick={this.GenarateData}>
                         Genarate Data
                     </button>
-                    <Control
-                     onSort={this.onSort} sortBy ={sortBy} sortValue={sortValue} />
+                    <Control />
                     <TaskList />
                 </div>
             </div>

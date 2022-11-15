@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import * as actions from "../actions"
 
 
 class Sort extends Component {
     onClick = (sortBy,sortValue) =>{
-       this.props.onSort(sortBy,sortValue)
+    //    this.props.onSort(sortBy,sortValue)
+    this.props.onSort({
+        by: sortBy,
+        value : sortValue
+    })
     }
     // componentDidUpdate(prevProps,prevState){
     //     console.log(prevProps)
@@ -40,4 +46,18 @@ class Sort extends Component {
     }
 }
 
-export default Sort;
+
+const mapStateToProps = state =>{
+    return {
+        sort : state.sort
+    }
+  }
+  const mapDispatchToProps = (dispatch, props)=>{
+    return {
+      onSort: (sort)=>{
+        dispatch(actions.sort(sort))
+      },
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Sort);
