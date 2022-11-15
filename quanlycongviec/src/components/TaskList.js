@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import * as actions from "../actions/index";
 
 class TaskList extends Component {
 
@@ -25,7 +26,11 @@ class TaskList extends Component {
         var target = event.target;
         var name = target.name;
         var value = target.value;
-        this.props.onFilter(name === 'filterName' ? value : this.state.filterName,name === 'filterStatus' ? value : this.state.filterStatus)
+        var filter = {
+            name: name === 'filterName' ? value : this.state.filterName,
+            status : name === 'filterStatus' ? value : this.state.filterStatus 
+        }
+        this.props.onFilterTable(filter)
         this.setState({
             [name] : value
         })
@@ -33,15 +38,39 @@ class TaskList extends Component {
 
 
      render() {
-        var tasks = this.props.tasks;
+        var {tasks,filterTable,keyword} = this.props;
+        // console.log(filterTable);
+
+            if(filterTable){
+                if(filterTable.name){
+                    tasks = tasks.filter((task)=>{
+                    return task.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) !== -1;
+                    });
+                }
+                tasks = tasks.filter((task)=>{
+                if(filterTable.status === -1){
+                    return task;
+                }else{
+                return task.status === (filterTable.status === 1 ? true : false)       
+                } 
+             })
+             }
+             
+
+            if(keyword){
+                // console.log(typeof this.props.keyword)
+                tasks = tasks.filter((task)=>{
+                    return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+                })
+            }
+
+
         var {filterName, filterStatus} = this.state;
         var elmtasks = tasks.map((task, index)=>{
-            return <TaskItem key={task.id} index={index} task = {task} 
-            // onUpdateStatus = {this.onUpdateStatus}
-            //  onDelete ={this.onDelete}
-            //   onUpdate={this.onUpdate} 
-              />
+            return <TaskItem key={task.id} index={index} task = {task} />
         })
+
+
 
         return (
             <div className="row mt-15">
@@ -82,8 +111,17 @@ class TaskList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks : state.tasks
+        tasks : state.tasks,
+        filterTable : state.filterTable,
+        keyword : state.search
+    }
+}
+const mapDispatchToProps = (dispatch,props)=>{
+    return {
+        onFilterTable: (filter) => {
+            dispatch(actions.filterTable(filter))
+        }
     }
 }
 
-export default connect(mapStateToProps, null) (TaskList);
+export default connect(mapStateToProps, mapDispatchToProps) (TaskList);
